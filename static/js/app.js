@@ -8,21 +8,24 @@ d3.json("./data/samples.json").then(function(data) {
 
     // filter based on id
     var result = samples.filter(obj => {
-        return obj.id === "941"
+        return obj.id === "948"
         });
-    console.log(result);
 
-    // put chart data in variables
+    // Storing vars for chart data
     var sampleValues = result[0].sample_values;
-    console.log(sampleValues);
+    sampleValues = sampleValues.slice(0, 10); // Add line to reverse so chart is flipped
     var otuIDs = result[0].otu_ids;
-    console.log(otuIDs);
-    // var otuLabels = result.otu_labels
+    var otuLabels = result[0].otu_labels;
+    
+    otuIDs.forEach(function(part, index, otuIDs) {
+    otuIDs[index] = `OTU ${otuIDs[index]}`;
+    });
 
     var data = [{
         type: 'bar',
         x: sampleValues,
         y: otuIDs,
+        text: otuLabels,
         orientation: 'h'
       }];
       
