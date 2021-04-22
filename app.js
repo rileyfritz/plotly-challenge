@@ -8,14 +8,12 @@ function InitDashboard() {
         var samples = data.samples;
         // console.log(samples);
 
-        // // Remove all options currently in the dropdown
-        // var options = document.querySelectorAll('#selDataset option');
-        // options.forEach(o => o.remove());
-
         // Select and populate the dropdwon
         var select = document.getElementById("selDataset");
+        
+        // check if there are already options in the dropdown. Only add options if options array is empty
         var options = document.querySelectorAll('#selDataset option');
-        console.log(options);
+        // console.log(options);
 
         if (options.length === 0) {
         
@@ -43,19 +41,42 @@ function InitDashboard() {
         var otuIDs = result[0].otu_ids;
         var otuLabels = result[0].otu_labels;
 
+        // adding OTU id to the y axis as f-string
         otuIDs.forEach(function (part, index, otuIDs) {
             otuIDs[index] = `OTU ${otuIDs[index]}`;
         });
-
-        var data = [{
+        // Create trace for hbar plot
+        var hbarData = [{
             type: 'bar',
             x: sampleValues,
             y: otuIDs,
             text: otuLabels,
             orientation: 'h'
         }];
+        
+        // create the hbar chart
+        Plotly.newPlot('bar', hbarData);
 
-        Plotly.newPlot('bar', data);
+        console.log(result[0].otu_ids);
+        // var trace1 = {
+        //     x: [1, 2, 3, 4],
+        //     y: [10, 11, 12, 13],
+        //     mode: 'markers',
+        //     marker: {
+        //       size: [40, 60, 80, 100]
+        //     }
+        //   };
+          
+        //   var data = [trace1];
+          
+        //   var layout = {
+        //     title: 'Marker Size',
+        //     showlegend: false,
+        //     height: 600,
+        //     width: 600
+        //   };
+          
+        //   Plotly.newPlot('myDiv', data, layout);
 
     });
 };
