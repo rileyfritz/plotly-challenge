@@ -8,14 +8,24 @@ function InitDashboard() {
         var samples = data.samples;
         // console.log(samples);
 
+        // // Remove all options currently in the dropdown
+        // var options = document.querySelectorAll('#selDataset option');
+        // options.forEach(o => o.remove());
+
         // Select and populate the dropdwon
         var select = document.getElementById("selDataset");
+        var options = document.querySelectorAll('#selDataset option');
+        console.log(options);
 
-        for (var i = 0; i < samples.length; i++) {
-            var option = document.createElement('option');
-            option.text = samples[i].id;
-            // console.log(option.text);
-            select.add(option, 0);
+        if (options.length === 0) {
+        
+            // populate dropdown with loop
+            for (var i = 0; i < samples.length; i++) {
+                var option = document.createElement('option');
+                option.text = samples[i].id;
+                // console.log(option.text);
+                select.add(option, 0);
+            };
         };
 
         // get current dropdown value
