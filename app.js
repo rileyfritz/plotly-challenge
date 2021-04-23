@@ -37,7 +37,8 @@ function InitDashboard() {
 
         // Storing vars for chart data
         var sampleValues = result[0].sample_values;
-        sampleValues = sampleValues.slice(0, 10); // Add line to reverse so chart is flipped
+        var sampleValuesTen = [...sampleValues]
+        sampleValuesTen = sampleValuesTen.slice(0, 10); // Add line to reverse so chart is flipped
         var otuIDs = result[0].otu_ids;
         var otuIdNums = [...otuIDs];
         var otuLabels = result[0].otu_labels;
@@ -49,7 +50,7 @@ function InitDashboard() {
         // Create trace for hbar plot
         var hbarData = [{
             type: 'bar',
-            x: sampleValues,
+            x: sampleValuesTen,
             y: otuIDs,
             text: otuLabels,
             orientation: 'h'
@@ -59,12 +60,25 @@ function InitDashboard() {
         Plotly.newPlot('bar', hbarData);
 
         console.log(otuIdNums);
+        var colors = ['pink','red', 'orange', 'yellow', 'green', 'blue', 'grey', 'black']
+        var markerColors = [];
+        
+        // put a bunch of colors into an array
+        for (var i = 0; i < otuIdNums.length; i++) {
+            var counter = i % 8;
+            counter = Math.floor(counter);
+            console.log(counter);
+            markerColors.push(colors[counter]);
+        };
+        console.log(markerColors);
 
         var bubbleData = [{
             x: otuIdNums,
             y: sampleValues,
+            text: otuLabels,
             mode: 'markers',
             marker: {
+              color: markerColors,
               size: sampleValues
             }
           }];
