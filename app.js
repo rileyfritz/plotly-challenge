@@ -13,7 +13,6 @@ function InitDashboard() {
         
         // check if there are already options in the dropdown. Only add options if options array is empty
         var options = document.querySelectorAll('#selDataset option');
-        // console.log(options);
 
         if (options.length === 0) {
         
@@ -47,6 +46,7 @@ function InitDashboard() {
         otuIDs.forEach(function (part, index, otuIDs) {
             otuIDs[index] = `OTU ${otuIDs[index]}`;
         });
+        
         // Create trace for hbar plot
         var hbarData = [{
             type: 'bar',
@@ -59,7 +59,7 @@ function InitDashboard() {
         // create the hbar chart
         Plotly.newPlot('bar', hbarData);
 
-        console.log(otuIdNums);
+        // color lists for marker colors
         var colors = ['pink','red', 'orange', 'yellow', 'green', 'blue', 'grey', 'black']
         var markerColors = [];
         
@@ -70,8 +70,7 @@ function InitDashboard() {
             console.log(counter);
             markerColors.push(colors[counter]);
         };
-        console.log(markerColors);
-
+        // trace for bubble chart
         var bubbleData = [{
             x: otuIdNums,
             y: sampleValues,
@@ -85,8 +84,11 @@ function InitDashboard() {
           
           
           var bubbleLayout = {
-            title: 'Marker Size',
-            showlegend: false
+            title: '',
+            showlegend: false,
+            xaxis: {
+                title: 'OTU ID'
+            }
           };
           
           Plotly.newPlot('bubble', bubbleData, bubbleLayout);
