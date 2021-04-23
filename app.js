@@ -92,15 +92,15 @@ function InitDashboard() {
 
         Plotly.newPlot('bubble', bubbleData, bubbleLayout);
 
+        // Clear out Demographic info panel before updating
+        document.getElementById("sample-metadata").innerHTML = "";
+
+        // Filter out the metadata corresponding to the selected ID, similar to filtering the sample values above
         var metadata = data.metadata;
         var currentMeta = metadata.filter(obj => {
             return obj.id == currentID
         });
 
-        console.log(currentID);
-        console.log(metadata);
-        console.log(currentMeta);
-        
         // create & assign metadata variables for the demographic info panel
         var ethnicityMeta = currentMeta[0].ethnicity;
         var genderMeta = currentMeta[0].gender;
@@ -113,7 +113,7 @@ function InitDashboard() {
         var sampleList = [`id: ${currentID}`, `ethnicity: ${ethnicityMeta}`, `gender: ${genderMeta}`, `age: ${ageMeta}`, `location: ${locationMeta}`, `bbtype: ${bbtypeMeta}`, `wfreq: ${wfreqMeta}`];
         var panel = document.getElementById("sample-metadata");
         var ul = document.createElement("ul");
-
+        
         // create all the li
         for (i = 0; i <= sampleList.length - 1; i++) {
             var li = document.createElement('li');
