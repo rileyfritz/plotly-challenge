@@ -10,12 +10,12 @@ function InitDashboard() {
 
         // Select and populate the dropdwon
         var select = document.getElementById("selDataset");
-        
+
         // check if there are already options in the dropdown. Only add options if options array is empty
         var options = document.querySelectorAll('#selDataset option');
 
         if (options.length === 0) {
-        
+
             // populate dropdown with loop
             for (var i = 0; i < samples.length; i++) {
                 var option = document.createElement('option');
@@ -46,7 +46,7 @@ function InitDashboard() {
         otuIDs.forEach(function (part, index, otuIDs) {
             otuIDs[index] = `OTU ${otuIDs[index]}`;
         });
-        
+
         // Create trace for hbar plot
         var hbarData = [{
             type: 'bar',
@@ -55,14 +55,14 @@ function InitDashboard() {
             text: otuLabels,
             orientation: 'h'
         }];
-        
+
         // create the hbar chart
         Plotly.newPlot('bar', hbarData);
 
         // color lists for marker colors
-        var colors = ['pink','red', 'orange', 'yellow', 'green', 'blue', 'grey', 'black']
+        var colors = ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'grey', 'black']
         var markerColors = [];
-        
+
         // put a bunch of colors into an array
         for (var i = 0; i < otuIdNums.length; i++) {
             var counter = i % 8;
@@ -77,42 +77,53 @@ function InitDashboard() {
             text: otuLabels,
             mode: 'markers',
             marker: {
-              color: markerColors,
-              size: sampleValues
+                color: markerColors,
+                size: sampleValues
             }
-          }];
-          
-          // bubble chart layout
-          var bubbleLayout = {
-            title: '',
+        }];
+
+        // bubble chart layout
+        var bubbleLayout = {
             showlegend: false,
             xaxis: {
                 title: 'OTU ID'
             }
-          };
-          
-          Plotly.newPlot('bubble', bubbleData, bubbleLayout);
-          var idMeta = 24;
-          var ethnicityMeta = "testy"
-          var genderMeta 
-          var ageMeta
-          var locationMeta
-          var bbtypeMeta
-          var wfreqMeta
-          // add list to the Demographic Info panel
-          var sampleList = [`id: ${idMeta}`, `ethnicity: ${ethnicityMeta}`, `gender: ${genderMeta}`, `age: ${ageMeta}`, `location: ${locationMeta}`, `bbtype: ${bbtypeMeta}`, `wfreq: ${wfreqMeta}`];
-          var panel = document.getElementById("sample-metadata");
-          var ul = document.createElement("ul");
+        };
 
-          for (i = 0; i <= sampleList.length - 1; i++) {
-                var li = document.createElement('li');
-                li.innerHTML = sampleList[i];      
-                li.setAttribute('style', 'display: block;');
-                ul.appendChild(li);
-            };
+        Plotly.newPlot('bubble', bubbleData, bubbleLayout);
 
-            panel.appendChild(ul);       // add list to the container.
-    
+        var metadata = data.metadata;
+        var currentMeta = metadata.filter(obj => {
+            return obj.id == currentID
+        });
+
+        console.log(currentID);
+        console.log(metadata);
+        console.log(currentMeta);
+        
+        // create & assign metadata variables for the demographic info panel
+        var ethnicityMeta = currentMeta[0].ethnicity;
+        var genderMeta = currentMeta[0].gender;
+        var ageMeta = currentMeta[0].age;
+        var locationMeta = currentMeta[0].location;
+        var bbtypeMeta = currentMeta[0].bbtype;
+        var wfreqMeta = currentMeta[0].wfreq;
+        
+        // add list to the Demographic Info panel
+        var sampleList = [`id: ${currentID}`, `ethnicity: ${ethnicityMeta}`, `gender: ${genderMeta}`, `age: ${ageMeta}`, `location: ${locationMeta}`, `bbtype: ${bbtypeMeta}`, `wfreq: ${wfreqMeta}`];
+        var panel = document.getElementById("sample-metadata");
+        var ul = document.createElement("ul");
+
+        // create all the li
+        for (i = 0; i <= sampleList.length - 1; i++) {
+            var li = document.createElement('li');
+            li.innerHTML = sampleList[i];
+            li.setAttribute('style', 'display: block;');
+            ul.appendChild(li);
+        };
+
+        // append ul
+        panel.appendChild(ul);
     });
 };
 
