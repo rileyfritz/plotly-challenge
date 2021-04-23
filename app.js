@@ -39,6 +39,7 @@ function InitDashboard() {
         var sampleValues = result[0].sample_values;
         sampleValues = sampleValues.slice(0, 10); // Add line to reverse so chart is flipped
         var otuIDs = result[0].otu_ids;
+        var otuIdNums = [...otuIDs];
         var otuLabels = result[0].otu_labels;
 
         // adding OTU id to the y axis as f-string
@@ -57,26 +58,24 @@ function InitDashboard() {
         // create the hbar chart
         Plotly.newPlot('bar', hbarData);
 
-        console.log(result[0].otu_ids);
-        // var trace1 = {
-        //     x: [1, 2, 3, 4],
-        //     y: [10, 11, 12, 13],
-        //     mode: 'markers',
-        //     marker: {
-        //       size: [40, 60, 80, 100]
-        //     }
-        //   };
+        console.log(otuIdNums);
+
+        var bubbleData = [{
+            x: otuIdNums,
+            y: sampleValues,
+            mode: 'markers',
+            marker: {
+              size: sampleValues
+            }
+          }];
           
-        //   var data = [trace1];
           
-        //   var layout = {
-        //     title: 'Marker Size',
-        //     showlegend: false,
-        //     height: 600,
-        //     width: 600
-        //   };
+          var bubbleLayout = {
+            title: 'Marker Size',
+            showlegend: false
+          };
           
-        //   Plotly.newPlot('myDiv', data, layout);
+          Plotly.newPlot('bubble', bubbleData, bubbleLayout);
 
     });
 };
