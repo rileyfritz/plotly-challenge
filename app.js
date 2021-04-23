@@ -82,7 +82,7 @@ function InitDashboard() {
             }
           }];
           
-          
+          // bubble chart layout
           var bubbleLayout = {
             title: '',
             showlegend: false,
@@ -92,7 +92,27 @@ function InitDashboard() {
           };
           
           Plotly.newPlot('bubble', bubbleData, bubbleLayout);
+          var idMeta = 24;
+          var ethnicityMeta = "testy"
+          var genderMeta 
+          var ageMeta
+          var locationMeta
+          var bbtypeMeta
+          var wfreqMeta
+          // add list to the Demographic Info panel
+          var sampleList = [`id: ${idMeta}`, `ethnicity: ${ethnicityMeta}`, `gender: ${genderMeta}`, `age: ${ageMeta}`, `location: ${locationMeta}`, `bbtype: ${bbtypeMeta}`, `wfreq: ${wfreqMeta}`];
+          var panel = document.getElementById("sample-metadata");
+          var ul = document.createElement("ul");
 
+          for (i = 0; i <= sampleList.length - 1; i++) {
+                var li = document.createElement('li');
+                li.innerHTML = sampleList[i];      
+                li.setAttribute('style', 'display: block;');
+                ul.appendChild(li);
+            };
+
+            panel.appendChild(ul);       // add list to the container.
+    
     });
 };
 
